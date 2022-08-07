@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,6 +28,17 @@ public class PlayerController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         playerRigidbody.AddForce(focalPoint.transform.forward * vertical * playerSpeed);
         powerupIndicator.transform.position = transform.position;
+
+        if (transform.position.y < -10)
+        {
+            if (SpawnManager.level > DataManager.Instance.highScore)
+            {
+                DataManager.Instance.highScore = SpawnManager.level;
+                DataManager.Instance.heldBy = DataManager.Instance.playerName;
+                DataManager.Instance.Save();
+            }
+            SceneManager.LoadScene(0);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

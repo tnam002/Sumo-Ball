@@ -1,15 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class SpawnManager : MonoBehaviour
 {
+    [SerializeField] TextMeshProUGUI currentLevel;
+    [SerializeField] TextMeshProUGUI playerMessage;
+
     public GameObject enemyPrefab;
     public GameObject powerupPrefab;
 
     private float spawnRadius = 9;
 
-    public int level = 1;
+    public static int level = 1;
     public int enemyCount;
 
     // Start is called before the first frame update
@@ -17,6 +21,8 @@ public class SpawnManager : MonoBehaviour
     {
         // start wave #1
         SpawnWave(level);
+        playerMessage.text = $"You can do it, {DataManager.Instance.playerName}!";
+
     }
 
     // Update is called once per frame
@@ -29,6 +35,8 @@ public class SpawnManager : MonoBehaviour
             level++;
             SpawnWave(level);
         }
+
+        currentLevel.text = $"Level {level}";
     }
 
     void SpawnWave(int numberOfEnemies)
